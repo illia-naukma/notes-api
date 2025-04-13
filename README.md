@@ -1,98 +1,160 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Міні-API для керування нотатками
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Це простий RESTful API, створений з використанням NestJS та TypeScript, який дозволяє керувати нотатками через стандартні HTTP-запити.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Опис
 
-## Description
+API має наступні ендпоінти:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+1. `GET /notes` — отримання списку всіх нотаток
+2. `POST /notes` — створення нової нотатки
+3. `GET /notes/:id` — отримання конкретної нотатки за ID
+4. `PUT /notes/:id` — оновлення вмісту існуючої нотатки
+5. `DELETE /notes/:id` — видалення нотатки за ID
 
-## Project setup
+## Технічний стек
 
+- NestJS
+- TypeScript
+- TypeORM (для роботи з базою даних)
+- SQLite (як база даних)
+- Jest (для тестування)
+
+## Встановлення та запуск
+
+### Передумови
+
+- Node.js (v14 або новіша)
+- npm або yarn
+
+### Інсталяція
+
+1. Клонуйте репозиторій:
 ```bash
-$ npm install
+git clone https://github.com/ваш-логін/notes-api.git
+cd notes-api
 ```
 
-## Compile and run the project
-
+2. Встановіть залежності:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
-
+3. Запустіть додаток:
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:dev
 ```
 
-## Deployment
+За замовчуванням, API буде доступний за адресою http://localhost:3000
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## API Довідник
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Отримання всіх нотаток
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```
+GET /notes
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Відповідь:
+```json
+{
+  "items": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "title": "Перша нотатка",
+      "content": "Вміст першої нотатки"
+    },
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174001",
+      "title": "Друга нотатка",
+      "content": "Вміст другої нотатки"
+    }
+  ]
+}
+```
 
-## Resources
+### Створення нової нотатки
 
-Check out a few resources that may come in handy when working with NestJS:
+```
+POST /notes
+Content-Type: application/json
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+{
+  "title": "Нова нотатка",
+  "content": "Вміст нової нотатки"
+}
+```
 
-## Support
+Відповідь:
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174002",
+  "title": "Нова нотатка",
+  "content": "Вміст нової нотатки"
+}
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Отримання конкретної нотатки
 
-## Stay in touch
+```
+GET /notes/123e4567-e89b-12d3-a456-426614174000
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Відповідь:
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "title": "Перша нотатка",
+  "content": "Вміст першої нотатки"
+}
+```
 
-## License
+### Оновлення нотатки
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```
+PUT /notes/123e4567-e89b-12d3-a456-426614174000
+Content-Type: application/json
+
+{
+  "title": "Оновлена нотатка",
+  "content": "Оновлений вміст нотатки"
+}
+```
+
+Відповідь:
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "title": "Оновлена нотатка",
+  "content": "Оновлений вміст нотатки"
+}
+```
+
+### Видалення нотатки
+
+```
+DELETE /notes/123e4567-e89b-12d3-a456-426614174000
+```
+
+Відповідь:
+```json
+{
+  "success": true
+}
+```
+
+## Структура проєкту
+
+```
+src/
+├── notes/                 
+│   ├── dto/                
+│   │   └── note.dto.ts     # Інтерфейси DTO для нотаток
+│   ├── entities/           # Сутності TypeORM
+│   │   └── note.entity.ts  # Сутність нотатки
+│   ├── notes.controller.ts # Контролер нотаток
+│   ├── notes.service.ts    # Сервіс нотаток
+│   └── notes.module.ts     # Модуль нотаток
+├── app.module.ts           # Головний модуль додатка
+└── main.ts                 # Точка входу додатка
+```

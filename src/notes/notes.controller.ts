@@ -7,31 +7,34 @@ export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
   @Get()
-  findAll(): INoteListDto {
-    return { items: this.notesService.findAll() };
+  async findAll(): Promise<INoteListDto> {
+    const notes = await this.notesService.findAll();
+    return { items: notes };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): INoteDto {
+  async findOne(@Param('id') id: string): Promise<INoteDto> {
     return this.notesService.findOne(id);
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createNoteDto: ICreateNoteDto): INoteDto {
+  async create(@Body() createNoteDto: ICreateNoteDto): Promise<INoteDto> {
     return this.notesService.create(createNoteDto);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateNoteDto: IUpdateNoteDto): INoteDto {
+  async update(
+    @Param('id') id: string,
+    @Body() updateNoteDto: IUpdateNoteDto,
+  ): Promise<INoteDto> {
     return this.notesService.update(id, updateNoteDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  remove(@Param('id') id: string): { success: boolean } {
-    const success = this.notesService.remove(id);
+  async remove(@Param('id') id: string): Promise<{ success: boolean }> {
+    const success = await this.notesService.remove(id);
     return { success };
   }
 }
-

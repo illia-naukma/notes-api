@@ -1,0 +1,41 @@
+name: Autotest Notes API
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Generate random port
+        run: echo "PORT=$(( (RANDOM % 1000) + 3000 ))" >> $GITHUB_ENV
+
+      - name: Run NestJS app in background
+        run: |
+          npm run start:prod &
+          sleep 10
+        env:
+          PORT: ${{ env.PORT }}
+
+      - name: Run e2e tests
+        run: npm run test:notes-api
+        env:
+          PORT: ${{ env.PORT }}

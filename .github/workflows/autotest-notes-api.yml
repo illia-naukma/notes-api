@@ -36,6 +36,6 @@ jobs:
           PORT: ${{ env.PORT }}
 
       - name: Run e2e tests
-        run: npm run test:notes-api
+        run: npm run test:e2e
         env:
           PORT: ${{ env.PORT }}
